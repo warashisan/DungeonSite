@@ -29,10 +29,21 @@
         light.position.set(1, 1, 1).normalize();
         scene.add(light);
 
+        //アニメーションミキサーの定義
+        let mixer
+
         // GLTFモデルのロード
         const loader = new THREE.GLTFLoader();
         loader.load('https://warashisan.github.io/data/gif/Ghost_1,0.glb', function(gltf) {
             scene.add(gltf.scene);
+
+            //アニメーションが含まれている場合、再生する
+            if (gltf.animations.length > 0) {
+                mixer = new THREE.AnimationMixer(model);
+                gltf.animations.forEach((clip) => {
+                    mixer.clipAction(clip).play();
+                });
+            }
             animate();
         }, undefined, function(error) {
             console.error(error);
@@ -43,6 +54,10 @@
         // アニメーション関数
         function animate() {
             requestAnimationFrame(animate);
+            //アニメーションが含まれていれば更新
+            if (mixer) {
+                mixer.update(0.01);//適切な更新速度を設定
+            }
             renderer.render(scene, camera);
         }
     </script>
