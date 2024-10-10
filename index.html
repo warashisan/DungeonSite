@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>3D Model Viewer</title>
+    <style>
+        body {
+            margin: 0;
+        }
+
+        canvas {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/mrdoob/three.js/examples/js/loaders/GLTFLoader.js"></script>
+    <script>
+        // Three.jsシーンの初期化
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        // 照明の追加
+        const light = new THREE.DirectionalLight(0xffffff, 1);
+        light.position.set(1, 1, 1).normalize();
+        scene.add(light);
+
+        // GLTFモデルのロード
+        const loader = new THREE.GLTFLoader();
+        loader.load('https://warashisan.github.io/data/gif/Ghost_1,0.glb', function(gltf) {
+            scene.add(gltf.scene);
+            animate();
+        }, undefined, function(error) {
+            console.error(error);
+        });
+
+        camera.position.z = 5;
+
+        // アニメーション関数
+        function animate() {
+            requestAnimationFrame(animate);
+            renderer.render(scene, camera);
+        }
+    </script>
+</body>
+</html>
