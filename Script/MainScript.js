@@ -17,7 +17,7 @@ const mouse = new THREE.Vector2();
 const Firstlight = new THREE.DirectionalLight(0xffffff, 1);
 Firstlight.position.set(20, 15, 1).normalize();
 scene.add(Firstlight);
-const Secondlight = new THREE.DirectionalLight(0xffffff, 4);
+const Secondlight = new THREE.DirectionalLight(0xffffff, 4  );
 Secondlight.position.set(0,10, -12).normalize();
 scene.add(Secondlight);
 
@@ -71,6 +71,7 @@ loader.load('https://warashisan.github.io/data/gif/Ghost_1,0.glb',
                 });
         }
         animate();
+        moveCamera();
     }, 
     undefined, 
     function (error) {
@@ -125,4 +126,15 @@ function animate() {
         mixer.update(0.006);//適切な更新速度を設定
     }
     renderer.render(scene, camera);
+}
+
+
+
+let count = 0;
+function moveCamera(){
+    if(count >= 10000)return;
+    camera.position.y += 0.01;
+    count++;
+    renderer.render(scene,camera);
+    requestAnimationFrame(moveCamera);
 }
