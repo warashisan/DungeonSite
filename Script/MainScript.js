@@ -5,6 +5,7 @@
 
 //参照
 import { initializeScene } from './Initialize.js';
+import { globalValiable } from './data.js';
 
 //初期化処理
 const {scene, camera, renderer } = initializeScene();
@@ -29,7 +30,7 @@ ground.rotation.x = - Math.PI / 2;
 ground.position.y = 0; 
 
 //アニメーションミキサーの定義
-let mixer
+let mixer;
 
 // シーンに地平線（地面）を追加
 scene.add(ground);
@@ -41,7 +42,7 @@ scene.background = new THREE.Color(0.5,1,1);
 const loader = new THREE.GLTFLoader();
 let loadedObject;
 loader.load(
-    'https://warashisan.github.io/data/3dObject/ClickButton.glb',
+    'https://warashisan.github.io/Resource/3dObject/ClickButton.glb',
     function (gltf) {
         loadedObject = gltf.scene;
         
@@ -58,7 +59,7 @@ loader.load(
         console.error('Error loading model:', error);
     }
 );
-loader.load('https://warashisan.github.io/data/gif/Ghost_1,0.glb', 
+loader.load('https://warashisan.github.io/Resource/gif/Ghost_1,0.glb', 
     function (gltf) {
         gltf.scene.position.z = 3;
         scene.add(gltf.scene);
@@ -95,9 +96,13 @@ function onMouseMove(event) {
 
     if (intersects.length > 0) {
         intersects[0].object.material.color.set(0xff0000); // 赤に変更
+        console.log(globalValiable.status);
+        globalValiable.status = 'running';
     } else if (loadedObject) {
         loadedObject.traverse((child) => {
             if (child.isMesh) child.material.color.set(0xffffff); // 元の色に戻す
+            console.log(globalValiable.status);
+            globalValiable.status = 'standing';
         });
     }
 }
@@ -128,12 +133,10 @@ function animate() {
     renderer.render(scene, camera);
 }
 
-
-
 let count = 0;
 function moveCamera(){
     if(count >= 10000)return;
-    camera.position.y += 0.01;
+    camera.position.y += 0.006;
     count++;
     renderer.render(scene,camera);
     requestAnimationFrame(moveCamera);

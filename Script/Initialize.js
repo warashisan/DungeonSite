@@ -15,3 +15,4 @@ export function initializeScene(){
 
     return {scene,camera,renderer};
 }
+
