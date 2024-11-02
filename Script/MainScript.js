@@ -5,7 +5,7 @@
 
 //参照
 import { initializeScene } from './Initialize.js';
-import { globalValiable } from './data.js';
+import { globalValiable } from '../Data/data.js';
 
 //初期化処理
 const {scene, camera, renderer } = initializeScene();
@@ -96,13 +96,11 @@ function onMouseMove(event) {
 
     if (intersects.length > 0) {
         intersects[0].object.material.color.set(0xff0000); // 赤に変更
-        console.log(globalValiable.status);
-        globalValiable.status = 'running';
     } else if (loadedObject) {
         loadedObject.traverse((child) => {
-            if (child.isMesh) child.material.color.set(0xffffff); // 元の色に戻す
-            console.log(globalValiable.status);
-            globalValiable.status = 'standing';
+            if (child.isMesh) {
+                child.material.color.set(0xffffff); // 元の色に戻す
+            }
         });
     }
 }
@@ -117,8 +115,12 @@ function onClick(event) {
         const obj = intersects[0].object;
         if (obj.scale.x === 1) {
             obj.scale.set(scaleFactor, scaleFactor, scaleFactor); // 拡大
+            displayLog(globalValiable.status);
+            globalValiable.status = 'running';
         } else {
             obj.scale.set(1, 1, 1); // 元のサイズに戻す
+            displayLog(globalValiable.status);
+            globalValiable.status = 'standing';
         }
     }
 }
@@ -140,4 +142,14 @@ function moveCamera(){
     count++;
     renderer.render(scene,camera);
     requestAnimationFrame(moveCamera);
+}
+
+function displayLog(message) {
+    const logDiv = document.getElementById('log');
+    const newLog = document.createElement('p'); // 新しいログ行を追加
+    newLog.textContent = message;
+    logDiv.appendChild(newLog); // ログエリアに追加
+
+    // ログエリアがいっぱいになったら自動的にスクロール
+    logDiv.scrollTop = logDiv.scrollHeight;
 }

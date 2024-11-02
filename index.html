@@ -1,9 +1,10 @@
+<!DOCTYPE html>
+
 <!-- 作成者：わらしさん -->
 <!-- 作成開始日：2024/10/14 -->
 
 <!-- index.html -->
 
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -22,6 +23,23 @@
     <!-- Three.jsのライブラリを先に読み込み -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r128/examples/js/loaders/GLTFLoader.js"></script>
+    
+    <!-- ログの表示用板-->
+    <div id="log" style="
+        position: fixed;
+        top: 50px;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width:600px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        height: 100px;
+        background: rgba(0,0,0,0.7);
+        overflow-y: scroll;
+        color: blanchedalmond;
+        font-size: 20px;
+        pointer-events: none;
+    "></div>
     
     <!-- 外部スクリプトファイルを読み込み -->
     <script type="module" src="Script/MainScript.js"></script>
